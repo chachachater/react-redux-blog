@@ -16,7 +16,7 @@
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },
-  "homepage": "https://chachachater.github.io/react-redux-todo-list",
+  "homepage": "https://chachachater.github.io/react-redux-blog",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",

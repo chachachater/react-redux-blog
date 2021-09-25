@@ -1,8 +1,6 @@
 import { combineReducers } from "redux";
-import todosReducer from "./todos";
-import filtersReducer from "./filter";
+import userReducer from "./userReducer";
 
 export default combineReducers({
-  todoState: todosReducer,
-  filterState: filtersReducer,
+  userState: userReducer,
 });

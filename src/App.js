@@ -1,76 +1,47 @@
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { selectTodos, selectFilter } from "./redux/selectors";
-import AddTodo from "./components/AddTodo";
-import TodoList from "./components/TodoList";
-import {
-  addTodo,
-  toggleTodo,
-  deleteTodo,
-  clean,
-  setFilter,
-} from "./redux/actions";
-import { saveTodosIntoLocalStorage } from "./utils";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
+import HomePage from "./components/pages/HomePage/HomePage";
+import PostPage from "./components/pages/PostPage/PostPage";
+import AboutMePage from "./components/pages/AboutMePage/AboutMePage";
+import LoginPage from "./components/pages/LoginPage/LoginPage";
+import RegisterPage from "./components/pages/RegisterPage/RegisterPage";
+import ArticlePage from "./components/pages/ArticlePage/ArticlePage";
+import EditArticlePage from "./components/pages/EditArticlePage/EditArticlePage";
 
-export default function App() {
-  const todos = useSelector(selectTodos);
-  const filter = useSelector(selectFilter);
-  const dispatch = useDispatch();
-  const [inputValues, setInputValues] = useState("");
-  useEffect(() => {
-    saveTodosIntoLocalStorage(todos);
-  }, [todos]);
-  const handleAddTodo = (e) => {
-    if (e.key !== "Enter") return;
-    dispatch(addTodo(inputValues));
-    setInputValues("");
-  };
+function App() {
   return (
-    <div className="app">
-      <AddTodo
-        className="title-block"
-        title="Todo List"
-        inputValues={inputValues}
-        handleAddTodo={handleAddTodo}
-        handleInputChange={(e) => {
-          setInputValues(e.target.value);
-        }}
-        filterAllTodo={() => {
-          dispatch(setFilter("all"));
-        }}
-        filterFinishedTodo={() => {
-          dispatch(setFilter("finished"));
-        }}
-        filterUnFinishedTodo={() => {
-          dispatch(setFilter("unfinished"));
-        }}
-        cleanTodo={() => {
-          dispatch(clean());
-        }}
-      />
-      {todos
-        .filter((todo) =>
-          filter[0] === "all"
-            ? todo
-            : filter[0] === "finished"
-            ? todo.isDone
-            : filter[0] === "unfinished"
-            ? !todo.isDone
-            : todo
-        )
-        .map((todo) => (
-          <TodoList
-            key={todo.id}
-            content={todo.content}
-            todo={todo}
-            handleDeleteTodo={(id) => {
-              dispatch(deleteTodo(id));
-            }}
-            handleIsDoneButton={(id) => {
-              dispatch(toggleTodo(id));
-            }}
-          />
-        ))}
+    <div>
+      <Router>
+        <Header />
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          <Route path="/index/:page">
+            <HomePage />
+          </Route>
+          <Route path="/new-post">
+            <PostPage />
+          </Route>
+          <Route path="/about-me">
+            <AboutMePage />
+          </Route>
+          <Route path="/login">
+            <LoginPage />
+          </Route>
+          <Route path="/register">
+            <RegisterPage />
+          </Route>
+        </Switch>
+        <Route path="/posts/:id">
+          <ArticlePage />
+        </Route>
+        <Route path="/edit/:id">
+          <EditArticlePage />
+        </Route>
+      </Router>
     </div>
   );
 }
+
+export default App;

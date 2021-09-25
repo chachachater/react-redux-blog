@@ -1,7 +1,10 @@
-import { createStore } from "redux";
-import rootReducer from "./reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import userReducer from "./reducers/userReducer";
+import postReducer from "./reducers/postReducer";
 
-export default createStore(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() // dev tool pulgins
-);
+export const store = configureStore({
+  reducer: {
+    user: userReducer,
+    post: postReducer,
+  },
+});
